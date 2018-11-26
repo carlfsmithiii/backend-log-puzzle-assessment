@@ -30,7 +30,7 @@ def read_urls(filename):
     increasing order."""
     # +++your code here+++
     head, _, tail = filename.partition("_")
-    filename_re = re.compile(r'GET\s(\S*puzzle\S*)\s')
+    filename_re = re.compile(r'GET\s/(\S*puzzle\S*)\s')
     with open(filename, 'rt') as f_obj:
         f_contents = f_obj.read()
         matches = filename_re.findall(f_contents)
