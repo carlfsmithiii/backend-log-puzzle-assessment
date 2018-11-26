@@ -46,7 +46,16 @@ def download_images(img_urls, dest_dir):
     Creates the directory if necessary.
     """
     # +++your code here+++
-    pass
+    if dest_dir not in os.listdir(os.getcwd()):
+        os.mkdir(dest_dir)
+    img_num = 0
+    for img_url in img_urls:
+        filename, _ = urllib.urlretrieve(img_url)
+        with open(filename, 'rb') as f_obj:
+            with open(os.path.join(os.getcwd(), dest_dir, 'img'
+                                   + str(img_num).zfill(2)), 'wb') as target:
+                target.write(f_obj.read())
+            img_num += 1
 
 
 def create_parser():
