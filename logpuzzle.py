@@ -56,6 +56,12 @@ def download_images(img_urls, dest_dir):
                                    + str(img_num).zfill(2)), 'wb') as target:
                 target.write(f_obj.read())
             img_num += 1
+    with open(os.path.join(os.getcwd(), dest_dir, 'index.html'), 'wt') as target:
+        target.write("<html>\n<style>img{margin:0}</style>\n<body>\n")
+        for filename in sorted(os.listdir(os.path.join(os.getcwd(), dest_dir))):
+            if 'index' not in filename:
+                target.write("<img src=\"{}\">".format(filename))
+        target.write("</html>\n</body>")
 
 
 def create_parser():
