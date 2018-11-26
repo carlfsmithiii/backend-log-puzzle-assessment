@@ -29,7 +29,12 @@ def read_urls(filename):
     Screens out duplicate urls and returns the urls sorted into
     increasing order."""
     # +++your code here+++
-    pass
+    head, _, tail = filename.partition("_")
+    filename_re = re.compile(r'GET\s(\S*puzzle\S*)\s')
+    with open(filename, 'rt') as f_obj:
+        f_contents = f_obj.read()
+        matches = filename_re.findall(f_contents)
+    return [os.path.join('http://', tail, match) for match in matches]
 
 
 def download_images(img_urls, dest_dir):
@@ -47,7 +52,8 @@ def download_images(img_urls, dest_dir):
 def create_parser():
     """Create an argument parser object"""
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--todir',  help='destination directory for downloaded images')
+    parser.add_argument(
+        '-d', '--todir',  help='destination directory for downloaded images')
     parser.add_argument('logfile', help='apache logfile to extract urls from')
 
     return parser
