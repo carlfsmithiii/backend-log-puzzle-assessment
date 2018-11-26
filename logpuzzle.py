@@ -51,14 +51,17 @@ def download_images(img_urls, dest_dir):
     img_num = 0
     for img_url in img_urls:
         filename, _ = urllib.urlretrieve(img_url)
+        imagename_match = re.search(r'\W(\w+)\.jpg$', img_url)
+        imagename = imagename_match.group(1)
         with open(filename, 'rb') as f_obj:
-            with open(os.path.join(os.getcwd(), dest_dir, 'img'
-                                   + str(img_num).zfill(2)), 'wb') as target:
+            # with open(os.path.join(os.getcwd(), dest_dir, 'img'
+                                #    + str(img_num).zfill(2) + '.img'), 'wb') as target:
+            with open(os.path.join(os.getcwd(), dest_dir, imagename + '.jpg'), 'wb') as target:
                 target.write(f_obj.read())
             img_num += 1
     with open(os.path.join(os.getcwd(), dest_dir, 'index.html'), 'wt') as target:
         target.write("<html>\n<style>img{margin:0}</style>\n<body>\n")
-        for filename in sorted(os.listdir(os.path.join(os.getcwd(), dest_dir))):
+        for filename in sorted(os.listdir(os.path.join(os.getcwd(), dest_dir)), key=str.lower):
             if 'index' not in filename:
                 target.write("<img src=\"{}\">".format(filename))
         target.write("</html>\n</body>")
